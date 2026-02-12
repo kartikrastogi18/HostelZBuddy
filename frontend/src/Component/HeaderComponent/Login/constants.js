@@ -1,0 +1,1 @@
+export const collegeDomain = "@jnu.ac.in"; // change to real domain
