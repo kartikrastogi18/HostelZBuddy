@@ -33,7 +33,7 @@ const Logo = () => {
       />
 
       <Typography
-        variant="h6"
+        variant="h6"  
         sx={{
           fontWeight: 700,
           letterSpacing: ".1rem",
