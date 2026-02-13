@@ -36,6 +36,10 @@ const Leave = sequelize.define("Leave", {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
+  is_adjusted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 }, {
   timestamps: true,
 });
