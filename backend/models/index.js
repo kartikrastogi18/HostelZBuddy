@@ -9,6 +9,14 @@ import Complaint from "./Complaint.js";
 import MealFeedback from "./MealFeedback.js";
 import Payment from "./Payment.js";
 import HostelSetting from "./HostelSetting.js";
+import Announcement from "./Announcement.js";
+import MessMenu from "./Messmenu.js";
+
+
+
+
+
+
 
 /* ==============================
    RELATIONS START HERE
@@ -62,6 +70,12 @@ Payment.belongsTo(Hostel, { foreignKey: "hostel_id" });
 Hostel.hasOne(HostelSetting, { foreignKey: "hostel_id" });
 HostelSetting.belongsTo(Hostel, { foreignKey: "hostel_id" });
 
+
+Hostel.hasMany(Announcement, { foreignKey: "hostel_id" });
+Announcement.belongsTo(Hostel, { foreignKey: "hostel_id" });
+
+Hostel.hasMany(MessMenu, { foreignKey: "hostel_id" });
+MessMenu.belongsTo(Hostel, { foreignKey: "hostel_id" });
 /* ==============================
    EXPORT EVERYTHING
 ================================= */
@@ -76,4 +90,6 @@ export {
   MealFeedback,
   Payment,
   HostelSetting,
+  Announcement,
+  MessMenu,
 };
