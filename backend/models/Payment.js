@@ -13,7 +13,12 @@ const Payment = sequelize.define("Payment", {
   },
 
   month: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER, // 1-12
+    allowNull: false,
+  },
+  
+  year: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 
@@ -28,6 +33,9 @@ const Payment = sequelize.define("Payment", {
   },
 
   transaction_id: {
+    type: DataTypes.STRING,
+  },
+  stripe_session_id: {
     type: DataTypes.STRING,
   },
 
