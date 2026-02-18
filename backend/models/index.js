@@ -11,6 +11,7 @@ import Payment from "./Payment.js";
 import HostelSetting from "./HostelSetting.js";
 import Announcement from "./Announcement.js";
 import MessMenu from "./Messmenu.js";
+import HostelImage from "./HostelImage.js";
 
 
 
@@ -76,6 +77,9 @@ Announcement.belongsTo(Hostel, { foreignKey: "hostel_id" });
 
 Hostel.hasMany(MessMenu, { foreignKey: "hostel_id" });
 MessMenu.belongsTo(Hostel, { foreignKey: "hostel_id" });
+
+Hostel.hasMany(HostelImage, { foreignKey: "hostel_id" });
+HostelImage.belongsTo(Hostel, { foreignKey: "hostel_id" });
 /* ==============================
    EXPORT EVERYTHING
 ================================= */
@@ -92,4 +96,5 @@ export {
   HostelSetting,
   Announcement,
   MessMenu,
+  HostelImage,
 };

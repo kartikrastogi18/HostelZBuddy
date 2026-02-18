@@ -1,8 +1,9 @@
 import express from "express";
-import { protect } from "../middleware/authMiddleware";
-import { authorize } from "../middleware/roleMiddleware";
-import { createHostel, getAllHostels } from "../controllers/hostelController";
+import { protect } from "../middlewares/authMiddleware.js";
+import { authorize } from "../middlewares/roleMiddleware.js";
+import { createHostel, getAllHostels } from "../controllers/hostelController.js";
 const router=express.Router();
 router.post("/",protect,authorize("super_admin"),createHostel);
-router.get("/",protect,authorize("super_admin"),getAllHostels);
+router.get("/public", getAllHostels);
+
 export default router;
