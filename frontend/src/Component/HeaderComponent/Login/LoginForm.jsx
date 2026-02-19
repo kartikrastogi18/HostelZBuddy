@@ -5,6 +5,7 @@ import {
   Typography,
   InputAdornment,
   IconButton,
+  MenuItem,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link } from "react-router-dom";
@@ -20,6 +21,23 @@ const LoginForm = ({
 }) => {
   return (
     <Box component="form" onSubmit={handleSubmit}>
+      
+      {/* ✅ Role Dropdown */}
+      <TextField
+        select
+        fullWidth
+        label="Login As"
+        name="role"
+        margin="normal"
+        value={formData.role || ""}
+        onChange={handleChange}
+        error={Boolean(errors.role)}
+        helperText={errors.role}
+      >
+        <MenuItem value="student">Student</MenuItem>
+        <MenuItem value="admin">Admin</MenuItem>
+      </TextField>
+
       <TextField
         fullWidth
         label="College Email"

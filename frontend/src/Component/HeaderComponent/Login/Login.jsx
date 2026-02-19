@@ -6,6 +6,20 @@ import ResetPasswordDialog from "./ResetPasswordDialog";
 import ErrorSnackbar from "./ErrorSnackbar";
 import { collegeDomain } from "./constants";
 
+// 🔥 Dummy Users (Temporary Database)
+const users = [
+  {
+    role: "student",
+    email: "student@jnu.ac.in",
+    password: "123456",
+  },
+  {
+    role: "admin",
+    email: "admin@jnu.ac.in",
+    password: "admin123",
+  },
+];  
+
 const Login = () => {
   const navigate = useNavigate();
 
@@ -15,6 +29,7 @@ const Login = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const [formData, setFormData] = useState({
+    role: "",
     email: "",
     password: "",
   });
@@ -37,34 +52,69 @@ const Login = () => {
     });
   };
 
+  // ✅ Login Submit
   const handleSubmit = (e) => {
     e.preventDefault();
+
     let tempErrors = {};
-    let errorMessage = "";
+    let messages = [];
+
+    if (!formData.role) {
+      tempErrors.role = "Please select role";
+      messages.push("Select your role");
+    }
 
     if (!formData.email) {
       tempErrors.email = "College Email is required";
-      errorMessage = "Please enter your college email.";
+      messages.push("Enter your college email");
     } else if (!validateCollegeEmail(formData.email)) {
       tempErrors.email = `Email must end with ${collegeDomain}`;
-      errorMessage = `Email must end with ${collegeDomain}`;
+      messages.push(`Email must end with ${collegeDomain}`);
     }
 
     if (!formData.password) {
       tempErrors.password = "Password is required";
-      errorMessage = "Please enter your password.";
+      messages.push("Enter your password");
     }
 
     setErrors(tempErrors);
 
-    if (Object.keys(tempErrors).length === 0) {
-      navigate("/dashboard");
+    // 🔥 Validation Failed
+    if (Object.keys(tempErrors).length > 0) {
+      setSnackbarMessage(messages.join(", "));
+      setOpenSnackbar(true);
+      return;
+    }
+
+    // 🔥 Check Dummy Users
+    const user = users.find(
+      (u) =>
+        u.role === formData.role &&
+        u.email === formData.email &&
+        u.password === formData.password
+    );
+
+    if (user) {
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userRole", user.role);
+      localStorage.setItem("userEmail", user.email);
+      window.dispatchEvent(new Event("storage"));
+      
+      setSnackbarMessage("Login Successful ✅");
+      setOpenSnackbar(true);
+
+      setTimeout(() => {
+        if (user.role === "admin") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/student-dashboard");
+        }
+      }, 1500);
     } else {
-      setSnackbarMessage(errorMessage);
+      setSnackbarMessage("Invalid email or password ❌");
       setOpenSnackbar(true);
     }
   };
-
 
   return (
     <Box
@@ -73,7 +123,6 @@ const Login = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(135deg, #1a237e, #283593)",
       }}
     >
       <Container maxWidth="sm">
@@ -84,7 +133,7 @@ const Login = () => {
             gutterBottom
             sx={{ fontWeight: 600 }}
           >
-            Student Login
+            Login
           </Typography>
 
           <Typography
@@ -107,13 +156,14 @@ const Login = () => {
         </Paper>
       </Container>
 
+      {/* 🔥 Error / Success Snackbar */}
       <ErrorSnackbar
         open={openSnackbar}
         handleClose={() => setOpenSnackbar(false)}
         message={snackbarMessage}
       />
 
-
+      {/* 🔥 Reset Password Dialog */}
       <ResetPasswordDialog
         open={openReset}
         handleClose={() => setOpenReset(false)}
