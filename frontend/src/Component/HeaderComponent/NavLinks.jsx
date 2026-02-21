@@ -13,9 +13,7 @@ const allPages = {
   ],
   student: [
     { name: "Home", path: "/" },
-    { name: "Dashboard", path: "/student-dashboard" },
-    { name: "Apply Rebate", path: "/apply-rebate" },
-    { name: "Rebate History", path: "/rebate-history" }
+    { name: "Dashboard", path: "/student-dashboard" }
   ],
 };
 
