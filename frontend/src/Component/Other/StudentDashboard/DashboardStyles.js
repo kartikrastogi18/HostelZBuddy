@@ -1,70 +1,109 @@
-// DashboardStyles.js
 export const styles = {
-  container: { 
-    padding: { xs: "16px", md: "40px" }, 
-    backgroundColor: "#f8fafc", 
+  container: {
     minHeight: "100vh",
-    fontFamily: "'Inter', sans-serif"
+    background: "linear-gradient(135deg, #eef2ff 0%, #f8faff 50%, #f0f4ff 100%)",
+    p: { xs: 2, sm: 3, md: 4, lg: 5 },
+    fontFamily: "'DM Sans', sans-serif",
+    position: "relative",
+    "&::before": {
+      content: '""',
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background:
+        "radial-gradient(ellipse 70% 40% at 10% 10%, rgba(99,102,241,0.07) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 90% 85%, rgba(139,92,246,0.05) 0%, transparent 60%)",
+      pointerEvents: "none",
+      zIndex: 0,
+    },
   },
-  header: {
-    display: "flex", 
-    justifyContent: "space-between", 
-    alignItems: "center", 
-    mb: 6 
-  },
+
   card: {
-    borderRadius: "20px",
-    boxShadow: "0 10px 15px -3px rgba(0,0,0,0.04), 0 4px 6px -2px rgba(0,0,0,0.02)",
-    border: "1px solid #f1f5f9",
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-    "&:hover": { 
-      transform: "translateY(-5px)",
-      boxShadow: "0 20px 25px -5px rgba(0,0,0,0.06)" 
-    }
+    background: "#ffffff",
+    border: "1px solid rgba(99,102,241,0.1)",
+    borderRadius: { xs: "16px", md: "20px" },
+    boxShadow: "0 2px 16px rgba(99,102,241,0.06), 0 1px 4px rgba(0,0,0,0.04)",
+    position: "relative",
+    overflow: "hidden",
+    transition: "all 0.3s ease",
+    "&:hover": {
+      border: "1px solid rgba(99,102,241,0.22)",
+      boxShadow: "0 6px 28px rgba(99,102,241,0.1), 0 2px 8px rgba(0,0,0,0.06)",
+      transform: "translateY(-2px)",
+    },
   },
-  statsBox: {
-    p: 1.5, 
-    borderRadius: "14px", 
-    display: "flex", 
-    alignItems: "center", 
-    justifyContent: "center"
-  },
-  tableHeader: {
-    backgroundColor: "#f8fafc",
-    "& th": { 
-      color: "#94a3b8", 
-      fontWeight: "700", 
-      fontSize: "0.75rem", 
-      textTransform: "uppercase",
-      letterSpacing: "0.05em",
-      borderBottom: "2px solid #f1f5f9"
-    }
-  },
+
   actionSidebar: {
-    background: "linear-gradient(145deg, #1e293b 0%, #0f172a 100%)",
-    color: "#fff",
-    borderRadius: "24px",
-    p: 4,
-    boxShadow: "0 20px 25px -5px rgba(0,0,0,0.2)",
-    mb: 3
+    background: "linear-gradient(160deg, #eef2ff 0%, #ffffff 60%)",
+    border: "1px solid rgba(99,102,241,0.18)",
+    borderRadius: { xs: "16px", md: "20px" },
+    boxShadow: "0 4px 20px rgba(99,102,241,0.08)",
+    p: { xs: 2.5, sm: 3, md: 3.5 },
+    mb: 3,
   },
+
+  statsBox: {
+    width: { xs: 40, md: 44 },
+    height: { xs: 40, md: 44 },
+    borderRadius: "12px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  },
+
+  tableHeader: {
+    "& .MuiTableCell-root": {
+      background: "#f5f7ff",
+      color: "#6366f1",
+      fontWeight: 700,
+      fontSize: { xs: "0.72rem", sm: "0.78rem" },
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+      borderBottom: "1px solid rgba(99,102,241,0.1)",
+      py: { xs: 1.5, md: 2 },
+      px: { xs: 1.5, md: 2.5 },
+    },
+  },
+
   btnPrimary: {
-    bgcolor: "#6366f1",
-    py: 1.6,
+    background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
     borderRadius: "12px",
+    fontWeight: 700,
     textTransform: "none",
-    fontWeight: "600",
-    fontSize: "0.95rem",
-    boxShadow: "0 4px 14px 0 rgba(99, 102, 241, 0.39)",
-    "&:hover": { bgcolor: "#4f46e5", boxShadow: "0 6px 20px rgba(99, 102, 241, 0.23)" },
-    "&.Mui-disabled": { bgcolor: "rgba(255,255,255,0.1)", color: "#64748b" }
-  },
-  btnOutline: {
-    borderColor: "rgba(255,255,255,0.15)",
     color: "#fff",
-    py: 1.4,
+    fontSize: { xs: "0.82rem", sm: "0.875rem" },
+    py: { xs: 1, sm: 1.2 },
+    boxShadow: "0 4px 14px rgba(99,102,241,0.3)",
+    border: "1px solid rgba(139,92,246,0.2)",
+    "&:hover": {
+      background: "linear-gradient(135deg, #4f46e5, #7c3aed)",
+      boxShadow: "0 6px 20px rgba(99,102,241,0.4)",
+      transform: "translateY(-1px)",
+    },
+    "&.Mui-disabled": {
+      background: "rgba(99,102,241,0.1)",
+      color: "rgba(99,102,241,0.35)",
+      border: "1px solid rgba(99,102,241,0.08)",
+      boxShadow: "none",
+    },
+    transition: "all 0.2s ease",
+  },
+
+  btnOutline: {
     borderRadius: "12px",
+    fontWeight: 700,
     textTransform: "none",
-    "&:hover": { borderColor: "#6366f1", bgcolor: "rgba(99, 102, 241, 0.05)" }
-  }
+    fontSize: { xs: "0.82rem", sm: "0.875rem" },
+    py: { xs: 1, sm: 1.2 },
+    borderColor: "rgba(99,102,241,0.35)",
+    color: "#6366f1",
+    "&:hover": {
+      borderColor: "#6366f1",
+      background: "rgba(99,102,241,0.06)",
+      transform: "translateY(-1px)",
+    },
+    transition: "all 0.2s ease",
+  },
 };

@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Typography, Paper, Container } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Paper,
+  Container,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import ResetPasswordDialog from "./ResetPasswordDialog";
@@ -18,10 +25,16 @@ const users = [
     email: "admin@jnu.ac.in",
     password: "admin123",
   },
-];  
+];
 
 const Login = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+
+  // Responsive breakpoints
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));       // < 600px
+  const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md")); // 600–900px
+  const isLaptop = useMediaQuery(theme.breakpoints.up("md"));          // >= 900px
 
   const [showPassword, setShowPassword] = useState(false);
   const [openReset, setOpenReset] = useState(false);
@@ -37,19 +50,11 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [resetEmail, setResetEmail] = useState("");
 
-  const validateCollegeEmail = (email) =>
-    email.endsWith(collegeDomain);
+  const validateCollegeEmail = (email) => email.endsWith(collegeDomain);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-
-    setErrors({
-      ...errors,
-      [e.target.name]: "",
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
   // ✅ Login Submit
@@ -79,14 +84,12 @@ const Login = () => {
 
     setErrors(tempErrors);
 
-    // 🔥 Validation Failed
     if (Object.keys(tempErrors).length > 0) {
       setSnackbarMessage(messages.join(", "));
       setOpenSnackbar(true);
       return;
     }
 
-    // 🔥 Check Dummy Users
     const user = users.find(
       (u) =>
         u.role === formData.role &&
@@ -99,7 +102,7 @@ const Login = () => {
       localStorage.setItem("userRole", user.role);
       localStorage.setItem("userEmail", user.email);
       window.dispatchEvent(new Event("storage"));
-      
+
       setSnackbarMessage("Login Successful ✅");
       setOpenSnackbar(true);
 
@@ -123,27 +126,71 @@ const Login = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        // Slight padding so card never touches screen edges on small phones
+        px: { xs: 1.5, sm: 3, md: 0 },
+        py: { xs: 3, sm: 4, md: 6 },
       }}
     >
-      <Container maxWidth="sm">
-        <Paper elevation={12} sx={{ p: 4, borderRadius: 4 }}>
+      {/*
+        maxWidth controls the card width at each breakpoint:
+          xs  → full width (minus px padding above)
+          sm  → ~480px (tablet portrait)
+          md  → ~600px (tablet landscape / small laptop)
+          lg  → ~600px (14-inch laptop and above — keep it tight)
+      */}
+      <Container
+        maxWidth="sm"
+        disableGutters={isMobile}
+        sx={{
+          width: {
+            xs: "100%",
+            sm: "90%",
+            md: "70%",
+            lg: "55%",
+            xl: "45%",
+          },
+        }}
+      >
+        <Paper
+          elevation={isMobile ? 4 : 12}
+          sx={{
+            // Responsive padding inside the card
+            p: { xs: 2.5, sm: 3.5, md: 4, lg: 5 },
+            borderRadius: { xs: 3, sm: 4 },
+          }}
+        >
+          {/* ── Title ── */}
           <Typography
-            variant="h4"
+            variant={isMobile ? "h5" : "h4"}
             align="center"
             gutterBottom
-            sx={{ fontWeight: 600 }}
+            sx={{
+              fontWeight: 600,
+              fontSize: {
+                xs: "1.4rem",
+                sm: "1.75rem",
+                md: "2rem",
+                lg: "2.125rem",
+              },
+            }}
           >
             Login
           </Typography>
 
+          {/* ── Subtitle ── */}
           <Typography
             variant="body2"
             align="center"
-            sx={{ mb: 3, color: "text.secondary" }}
+            sx={{
+              mb: { xs: 2, sm: 3 },
+              color: "text.secondary",
+              fontSize: { xs: "0.8rem", sm: "0.875rem" },
+            }}
           >
             Login using your college email
           </Typography>
 
+          {/* ── Form ── */}
           <LoginForm
             formData={formData}
             errors={errors}
@@ -161,6 +208,12 @@ const Login = () => {
         open={openSnackbar}
         handleClose={() => setOpenSnackbar(false)}
         message={snackbarMessage}
+        // Anchor snackbar at bottom-center on mobile, bottom-left elsewhere
+        anchorOrigin={
+          isMobile
+            ? { vertical: "bottom", horizontal: "center" }
+            : { vertical: "bottom", horizontal: "left" }
+        }
       />
 
       {/* 🔥 Reset Password Dialog */}
@@ -169,6 +222,8 @@ const Login = () => {
         handleClose={() => setOpenReset(false)}
         resetEmail={resetEmail}
         setResetEmail={setResetEmail}
+        // Make dialog full-screen on mobile
+        fullScreen={isMobile}
       />
     </Box>
   );
